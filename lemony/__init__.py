@@ -53,6 +53,10 @@ def set_bold_font(text):
     return set_font(text, 2)
 
 
+def set_monitor(text, monitor):
+    return "%{S" + str(monitor) + "}" + text
+
+
 def progress_bar(value, parts_total=5, used_char="=", empty_char="-"):
     value = int(value)
 
