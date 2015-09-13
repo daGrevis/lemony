@@ -1,6 +1,16 @@
 from math import ceil
 
 
+def to_bar_color_format(color):
+    """
+    From #RRGGBB to #FFRRGGBB if it's hex, otherwise pass-through.
+    """
+    if color[0] == "#":
+        return "#FF" + color[1:]
+    else:
+        return color
+
+
 def align_left(text):
     return "%{l}" + text
 
@@ -13,22 +23,12 @@ def align_right(text):
     return "%{r}" + text
 
 
-def draw_line_over(text):
+def set_overline(text):
     return "%{+o}" + text + "%{-o}"
 
 
-def draw_line_under(text):
+def set_underline(text):
     return "%{+u}" + text + "%{-u}"
-
-
-def to_bar_color_format(color):
-    """
-    From #RRGGBB to #FFRRGGBB if it's hex, otherwise pass-through.
-    """
-    if color[0] == "#":
-        return "#FF" + color[1:]
-    else:
-        return color
 
 
 def set_foreground_color(text, hex_color):
@@ -43,13 +43,19 @@ def set_background_color(text, hex_color):
             "%{B-}")
 
 
+def set_line_color(text, hex_color):
+    return ("%{U" + to_bar_color_format(hex_color) + "}" +
+            text +
+            "%{U-}")
+
+
 def set_font(text, font_index):
     return ("%{T" + str(font_index) + "}" +
             text +
             "%{T-}")
 
 
-def set_bold_font(text):
+def set_bold(text):
     return set_font(text, 2)
 
 
@@ -67,7 +73,7 @@ def progress_bar(value, parts_total=5, used_char="=", empty_char="-"):
 
     empty_parts = [used_char * parts_used]
     used_parts = [empty_char * parts_empty]
-    return "".join(empty_parts) + set_bold_font("".join(used_parts))
+    return "".join(empty_parts) + set_bold("".join(used_parts))
 
 
 class BaseWidget(object):
