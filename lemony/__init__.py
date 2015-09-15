@@ -83,15 +83,3 @@ class BaseWidget(object):
 
     def render(self):
         raise NotImplementedError()
-
-
-def render_widgets(widgets, raise_exceptions=False):
-    for w in widgets:
-        if not w.is_available():
-            continue
-
-        try:
-            yield w.render()
-        except Exception:
-            if raise_exceptions:
-                raise
