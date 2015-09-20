@@ -51,7 +51,7 @@ def set_line_color(text, hex_color):
 
 def set_font(text, font_index):
     return ("%{T" + str(font_index) + "}" +
-            text +
+            str(text) +
             "%{T-}")
 
 
@@ -63,7 +63,7 @@ def set_monitor(text, monitor):
     return "%{S" + str(monitor) + "}" + text
 
 
-def progress_bar(value, parts_total=5, used_char="=", empty_char="-"):
+def progress_bar(value, parts_total=10, used_char="=", empty_char="-"):
     value = int(value)
 
     step = 100 / parts_total
@@ -73,7 +73,7 @@ def progress_bar(value, parts_total=5, used_char="=", empty_char="-"):
 
     empty_parts = [used_char * parts_used]
     used_parts = [empty_char * parts_empty]
-    return "".join(empty_parts) + set_bold("".join(used_parts))
+    return set_bold("".join(empty_parts)) + "".join(used_parts)
 
 
 class BaseWidget(object):
